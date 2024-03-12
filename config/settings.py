@@ -132,10 +132,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000'
 ]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+SESSION_COOKIE_SAMESITE = None
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'users.authenticate.customizedJWTAuthenticate',
     ),
 }
 SIMPLE_JWT = {
@@ -149,7 +161,7 @@ DJOSER = {
     # 'SERIALIZERS': {},
     'LOGIN_FIELD': 'email',
     'SEND_ACTIVATION_EMAIL': True,
-    'ACTIVATION_URL': 'activation/{uid}/{token}'
+    'ACTIVATION_URL': 'api/auth/activate/{uid}/{token}'
 
 }
 EMAIL_HOST = 'smtp.gmail.com'

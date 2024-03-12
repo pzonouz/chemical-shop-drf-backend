@@ -18,6 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from api.views import AuthActivation
+
 urlpatterns = [path("admin/", admin.site.urls), path("api/", include("api.urls")),
+               path('api/auth/activate/<uid>/<token>/',
+                    AuthActivation.as_view()),
                path(r'api/auth/', include('djoser.urls')),
                path(r'api/auth/', include('djoser.urls.jwt')),]
