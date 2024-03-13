@@ -1,5 +1,4 @@
 # from datetime import timedelta
-from datetime import timedelta
 from django.http import HttpResponse
 import requests
 from rest_framework.views import APIView
@@ -11,18 +10,18 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 class AuthActivation(APIView):
     def get(self, request, uid, token):
-        protocol = 'https://' if request.is_secure() else 'http://'
+        protocol = "https://" if request.is_secure() else "http://"
         web_url = protocol + request.get_host()
         post_url = web_url + "/api/auth/users/activation/"
-        post_data = {'uid': uid, 'token': token}
+        post_data = {"uid": uid, "token": token}
         result = requests.post(post_url, data=post_data)
-        if (result.ok):
-            result = '''
+        if result.ok:
+            result = """
             <html>
             <body>
             <a href='http://localhost:3000/auth/login'>فعالسازی شما با موفقیت انجام شد. برای ادامه کلیک کنید</a>
             </body>
-            </html>'''
+            </html>"""
             return HttpResponse(result)
         return HttpResponse(result.text)
 
@@ -36,14 +35,16 @@ class LoginView(views.TokenObtainPairView):
         except TokenError as e:
             raise InvalidToken(e.args[0])
         data = serializer.validated_data
-        response = Response(data,
-                            status=status.HTTP_200_OK)
+        response = Response(data, status=status.HTTP_200_OK)
         response.set_cookie(
-            key="access", value=data["access"], domain=None,
+            key="access",
+            value=data["access"],
+            domain=None,
             path="/",
-            expires=timedelta(days=1),
+            max_age=60 * 60 * 24,
             secure=False,
             httponly=True,
-            samesite=None,)
+            samesite=None,
+        )
 
         return response

@@ -6,7 +6,6 @@ class customizedJWTAuthenticate(JWTAuthentication):
     def authenticate(self, request: Request):
         header = self.get_header(request)
         if header is None:
-            print()
             raw_token = request.COOKIES.get("access") or None
         else:
             raw_token = self.get_raw_token(header)

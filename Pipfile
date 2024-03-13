@@ -13,8 +13,11 @@ django-cors-headers = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 social-auth-app-django = "*"
+pillow = "*"
+python-dotenv = "*"
 
 [dev-packages]
+djlint = "*"
 
 [requires]
 python_version = "3.11"
