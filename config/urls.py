@@ -12,7 +12,7 @@ urlpatterns = [
     path("api/auth/activate/<uid>/<token>/", AuthActivation.as_view()),
     path("api/auth/", include("djoser.urls")),
     path("api/auth/", include("djoser.urls.jwt")),
-    path("api/auth/", include("djoser.social.urls")),
+    # path("api/auth/", include("djoser.social.urls")),
 ]
 urlpatterns = urlpatterns + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT

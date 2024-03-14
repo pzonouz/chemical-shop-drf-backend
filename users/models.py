@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of usernames.
     """
 
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         """
         Create and save a User with the given email and password.
         """
@@ -42,7 +42,8 @@ class CustomUser(AbstractUser):
     mobile = models.CharField(max_length=255, null=True)
     address = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, blank=True)
+    password = models.CharField(max_length=255, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

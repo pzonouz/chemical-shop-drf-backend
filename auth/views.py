@@ -1,4 +1,3 @@
-# from datetime import timedelta
 from django.http import HttpResponse
 import requests
 from rest_framework.views import APIView
@@ -6,6 +5,9 @@ from rest_framework_simplejwt import views
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+
+from djoser.social.views import ProviderAuthView
+from config import settings
 
 
 class AuthActivation(APIView):
@@ -39,12 +41,30 @@ class LoginView(views.TokenObtainPairView):
         response.set_cookie(
             key="access",
             value=data["access"],
-            domain=None,
-            path="/",
-            max_age=60 * 60 * 24,
-            secure=False,
-            httponly=True,
-            samesite=None,
+            path=settings.AUTH_COOKIE_PATH,
+            max_age=settings.AUTH_COOKIE_MAXAGE,
+            secure=settings.AUTH_COOKIE_SECURE,
+            httponly=settings.AUTH_COOKIE_HTTPONLY,
+            samesite=settings.AUTH_COOKIE_SAMESITE,
         )
 
+        return response
+
+
+class CustomProviderAuthView(ProviderAuthView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        print("Here")
+
+        if response.status_code == 201:
+            access = response.data.get("access")
+            response.set_cookie(
+                key="access",
+                value=access,
+                path=settings.AUTH_COOKIE_PATH,
+                max_age=settings.AUTH_COOKIE_MAXAGE,
+                secure=settings.AUTH_COOKIE_SECURE,
+                httponly=settings.AUTH_COOKIE_HTTPONLY,
+                samesite=settings.AUTH_COOKIE_SAMESITE,
+            )
         return response

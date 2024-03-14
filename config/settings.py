@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "categories",
     "social_django",
+    "images",
 ]
 
 MIDDLEWARE = [
@@ -132,7 +133,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = "static/"
 
-MEDIA_URL = "media/"
+MEDIA_URL = "api/media/"
 MEDIA_ROOT = "media/"
 
 # Default primary key field type
@@ -140,33 +141,10 @@ MEDIA_ROOT = "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.CustomUser"
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',
-#     'http://127.0.0.1:3000'
-# ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_HEADERS = (
-#     'accept',
-#     'authorization',
-#     'content-type',
-#     'user-agent',
-#     'x-csrftoken',
-#     'x-requested-with',
-# )
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# CORS_ALLOW_CREDENTIALS = True
-
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:3000',
-#     'http://127.0.0.1:3000',
-# )
-
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:3000',
-#     'http://127.0.0.1:3000',
-# ]
 SESSION_COOKIE_SAMESITE = None
 
 REST_FRAMEWORK = {
@@ -179,10 +157,7 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    # "social_core.backends.open_id.OpenIdAuth",
-    # "social_core.backends.google.GoogleOpenId",
     "social_core.backends.google.GoogleOAuth2",
-    # "social_core.backends.google.GoogleOAuth",
     "django.contrib.auth.backends.ModelBackend",
 )
 SIMPLE_JWT = {
@@ -206,7 +181,7 @@ DJOSER = {
     "ACTIVATION_URL": "api/auth/activate/{uid}/{token}",
     "EMAIL": {"activation": "auth.email.ActivationEmail"},
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": [
-        "http://localhost/auth/google-callback",
+        "http://localhost/authentication/google-callback",
     ],
 }
 EMAIL_HOST = "smtp.gmail.com"
@@ -222,7 +197,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid",
 ]
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name"]
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
-SOCIAL_AUTH_RAISE_EXCEPTIONS = True
-RAISE_EXCEPTIONS = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name", "profile"]
+# SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+AUTH_COOKIE_PATH = str(os.getenv("AUTH_COOKIE_PATH"))
+AUTH_COOKIE_MAXAGE = 86400
+AUTH_COOKIE_SECURE = False
+AUTH_COOKIE_HTTPONLY = True
+AUTH_COOKIE_SAMESITE = None
