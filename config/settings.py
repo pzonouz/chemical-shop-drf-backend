@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "categories",
     "social_django",
     "images",
+    "cartItems",
+    "orders",
 ]
 
 MIDDLEWARE = [
