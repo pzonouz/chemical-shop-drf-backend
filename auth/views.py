@@ -54,8 +54,6 @@ class LoginView(views.TokenObtainPairView):
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        print("Here")
-
         if response.status_code == 201:
             access = response.data.get("access")
             response.set_cookie(

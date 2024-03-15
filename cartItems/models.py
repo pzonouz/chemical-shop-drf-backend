@@ -5,10 +5,18 @@ from users.models import CustomUser
 
 
 class CartItem(models.Model):
-    user = models.OneToOneField(
-        CustomUser, related_name="cart", on_delete=models.CASCADE
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="cart_items",
     )
-    products = models.ManyToManyField(Product, related_name="products")
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="cart_items",
+        # unique=True
+    )
+    quantity = models.IntegerField(default=1)
 
     def __str__(self) -> str:
         return self.user.email

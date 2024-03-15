@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, AllowAny
 
 from categories.models import Category
-from categories.serializers import CategorySerializer
+from categories.serializers import CategoryAdminSerializer, CategorySerializer
 
 
 class CategoryListRetrieve(
@@ -19,4 +19,4 @@ class CategoryListRetrieve(
 class CategoryAdminViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategoryAdminSerializer

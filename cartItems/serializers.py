@@ -8,8 +8,4 @@ from cartItems.models import CartItem
 class CartItemSerializer(ModelSerializer):
     class Meta:
         model = CartItem
-        fields = (
-            "user",
-            "products",
-        )
-        read_only_fields = ("products",)
+        fields = ("user", "product", "quantity", "pk")
