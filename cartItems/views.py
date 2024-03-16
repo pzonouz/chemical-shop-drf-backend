@@ -22,7 +22,7 @@ class CartItemViewSet(ModelViewSet):
         data["user"] = user.id
         try:
             existingCartItem = CartItem.objects.get(
-                user__id=data["user"], product__id=data["product"]
+                user__id=data["user"], product__id=data["product_id"]
             )
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)

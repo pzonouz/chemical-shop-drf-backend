@@ -16,7 +16,9 @@ class CartItem(models.Model):
         related_name="cart_items",
         # unique=True
     )
-    quantity = models.IntegerField(default=1)
+    quantity = models.PositiveBigIntegerField(
+        default=1,
+    )
 
     def __str__(self) -> str:
         return self.user.email
