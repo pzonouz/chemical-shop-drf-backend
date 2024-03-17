@@ -2,6 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from config.models import TimeStampedModel
+
 
 class CustomUserManager(BaseUserManager):
     """
@@ -36,13 +38,13 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser, TimeStampedModel):
     username = None
     email = models.EmailField(("email address"), unique=True)
     mobile = models.CharField(max_length=255, null=True)
     address = models.CharField(max_length=255, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(null=True, blank=True)
+    # picture = models.ImageField(null=True, blank=True)
+    image = models.CharField(max_length=255, null=True, blank=True)
     password = models.CharField(max_length=255, null=True)
 
     USERNAME_FIELD = "email"
@@ -52,3 +54,8 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+# class UserProfile(TimeStampedModel):
+#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+#     picture = models.TextField(null=True, blank=True)

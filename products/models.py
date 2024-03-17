@@ -1,9 +1,10 @@
 from django.db import models
 
 from categories.models import Category
+from config.models import TimeStampedModel
 
 
-class Product(models.Model):
+class Product(TimeStampedModel):
     name = models.CharField(max_length=100)
     english_name = models.CharField(max_length=255, default="English Name")
     price = models.CharField(max_length=50)

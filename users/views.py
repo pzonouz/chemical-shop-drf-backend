@@ -1,7 +1,12 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from users.models import CustomUser
 
 
-@api_view()
-def users_list(request):
-    return Response("Hello")
+def update_user_social_data(strategy, *args, **kwargs):
+    # if kwargs["is_new"]:
+    response = kwargs["response"]
+    user = kwargs["user"]
+    if response["picture"]:
+        url = response["picture"]
+        userProfile_obj = CustomUser.objects.get(pk=user.id)
+        userProfile_obj.image = url
+        userProfile_obj.save()
