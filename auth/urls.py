@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from auth.views import CustomProviderAuthView, LoginView
+from auth.views import CustomProviderAuthView, LoginView, LogoutView
 
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
         CustomProviderAuthView.as_view(),
         name="provider-auth",
     ),
+    path("logout", LogoutView.as_view()),
 ]

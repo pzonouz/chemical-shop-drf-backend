@@ -66,3 +66,14 @@ class CustomProviderAuthView(ProviderAuthView):
                 samesite=settings.AUTH_COOKIE_SAMESITE,
             )
         return response
+
+
+class LogoutView(APIView):
+    def get(self, request, *args, **kwargs):
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+        response.set_cookie(
+            key="access",
+            path=settings.AUTH_COOKIE_PATH,
+            max_age=0,
+        )
+        return response
