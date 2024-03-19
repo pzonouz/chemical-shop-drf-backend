@@ -1,6 +1,7 @@
 from django.db import models
 
 from config.models import TimeStampedModel
+from orders.models import Order
 from products.models import Product
 from users.models import CustomUser
 
@@ -15,10 +16,16 @@ class CartItem(TimeStampedModel):
         Product,
         on_delete=models.CASCADE,
         related_name="cart_items",
-        # unique=True
     )
     quantity = models.PositiveBigIntegerField(
         default=1,
+    )
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="cart_items",
+        null=True,
+        blank=True,
     )
 
     def __str__(self) -> str:

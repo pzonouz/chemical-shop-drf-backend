@@ -4,6 +4,7 @@ from cartItems.views import CartItemViewSet
 from categories.views import CategoryAdminViewSet, CategoryListRetrieve
 
 from images.views import ImageUploadView
+from orders.views import AdminOrderViewSet, OrderViewSet
 from products.views import ProductAdminViewSet, ProductListRetrieve
 
 router = DefaultRouter()
@@ -12,6 +13,8 @@ router.register(r"admin/products", ProductAdminViewSet, basename="productsAdmin"
 router.register(r"categories", CategoryListRetrieve, basename="categories")
 router.register(r"admin/categories", CategoryAdminViewSet, basename="categoriesAdmin")
 router.register(r"cart-items", CartItemViewSet, basename="cartItems")
+router.register(r"orders", OrderViewSet, basename="orders")
+router.register(r"admin/orders", AdminOrderViewSet, "ordersAdmin")
 
 urlpatterns = [
     path("auth/", include("auth.urls")),
