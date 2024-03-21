@@ -22,8 +22,8 @@ class OrderViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         user = self.request.user
         data = request.data
-        data["user"] = user.id
-        cart_items = CartItem.objects.filter(user__id=user.id).values_list(
+        data["user"] = user.pk
+        cart_items = CartItem.objects.filter(user__id=user.pk).values_list(
             "pk", flat=True
         )
         data["cart_items"] = list(cart_items)
@@ -38,8 +38,26 @@ class OrderViewSet(ModelViewSet):
         )
 
 
-class AdminOrderViewSet(ModelViewSet):
+class OrderAdminViewSet(ModelViewSet):
     permission_classes = [IsAdminUser]
 
     class Meta:
         model = Order
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        data = request.data
+        data["user"] = user.pk
+        cart_items = CartItem.objects.filter(user__id=user.pk).values_list(
+            "pk", flat=True
+        )
+        data["cart_items"] = list(cart_items)
+        if data["cart_items"] == []:
+            return Response("Cart Items is empty", status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )

@@ -5,7 +5,6 @@ from orders.models import Order
 
 
 class OrderSerializer(ModelSerializer):
-    # cart_items = CartItemSerializer(many=True)
 
     class Meta:
         model = Order

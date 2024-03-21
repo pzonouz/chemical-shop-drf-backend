@@ -45,7 +45,7 @@ class LoginView(views.TokenObtainPairView):
             max_age=settings.AUTH_COOKIE_MAXAGE,
             secure=settings.AUTH_COOKIE_SECURE,
             httponly=settings.AUTH_COOKIE_HTTPONLY,
-            samesite=settings.AUTH_COOKIE_SAMESITE,
+            # samesite=settings.AUTH_COOKIE_SAMESITE,
         )
 
         return response
@@ -63,7 +63,7 @@ class CustomProviderAuthView(ProviderAuthView):
                 max_age=settings.AUTH_COOKIE_MAXAGE,
                 secure=settings.AUTH_COOKIE_SECURE,
                 httponly=settings.AUTH_COOKIE_HTTPONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE,
+                # samesite=settings.AUTH_COOKIE_SAMESITE,
             )
         return response
 

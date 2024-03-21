@@ -6,9 +6,9 @@ class JWTCookieMiddleware:
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        token = request.COOKIES.get('access')
+        token = request.COOKIES.get("access")
         if token:
-            request.META['HTTP_AUTHORIZATION'] = f'JWT {token}'
+            request.META["HTTP_AUTHORIZATION"] = f"JWT {token}"
 
         response = self.get_response(request)
 

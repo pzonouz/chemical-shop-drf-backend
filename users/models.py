@@ -41,10 +41,6 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser, TimeStampedModel):
     username = None
     email = models.EmailField(("email address"), unique=True)
-    mobile = models.CharField(max_length=255, null=True)
-    address = models.CharField(max_length=255, null=True)
-    # picture = models.ImageField(null=True, blank=True)
-    image = models.CharField(max_length=255, null=True, blank=True)
     password = models.CharField(max_length=255, null=True)
 
     USERNAME_FIELD = "email"
@@ -56,6 +52,12 @@ class CustomUser(AbstractUser, TimeStampedModel):
         return self.email
 
 
-# class UserProfile(TimeStampedModel):
-#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-#     picture = models.TextField(null=True, blank=True)
+class UserProfile(TimeStampedModel):
+    user = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="profile"
+    )
+    image = models.TextField(null=True, blank=True)
+    address = models.TextField(null=True)
+    mobile = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)

@@ -14,7 +14,7 @@ class CartItemViewSet(ModelViewSet):
     serializer_class = CartItemSerializer
 
     def get_queryset(self):
-        return CartItem.objects.filter(user=self.request.user)
+        return CartItem.objects.filter(user=self.request.user).filter(order=None)
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -22,7 +22,7 @@ class CartItemViewSet(ModelViewSet):
         data["user"] = user.id
         try:
             existingCartItem = CartItem.objects.get(
-                user__id=data["user"], product__id=data["product_id"]
+                user__id=data["user"], product__id=data["product_id"], order=None
             )
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)

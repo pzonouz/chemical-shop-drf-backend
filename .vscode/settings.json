@@ -20,5 +20,6 @@
     "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#0C4B33",
-  "cSpell.words": ["corsheaders", "dotenv", "MAXAGE", "viewsets"]
+  "cSpell.words": ["corsheaders", "dotenv", "MAXAGE", "viewsets"],
+  "python.analysis.typeCheckingMode": "basic"
 }
