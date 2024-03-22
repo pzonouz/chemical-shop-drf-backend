@@ -23,7 +23,7 @@ class OrderViewSet(ModelViewSet):
         user = self.request.user
         data = request.data
         data["user"] = user.pk
-        cart_items = CartItem.objects.filter(user__id=user.pk).values_list(
+        cart_items = CartItem.objects.filter(user__id=user.pk, order=None).values_list(
             "pk", flat=True
         )
         data["cart_items"] = list(cart_items)
@@ -40,6 +40,14 @@ class OrderViewSet(ModelViewSet):
 
 class OrderAdminViewSet(ModelViewSet):
     permission_classes = [IsAdminUser]
+    serializer_class = [OrderSerializer]
+
+    def get_queryset(self):
+        return (
+            Order.objects.select_related("user")
+            .prefetch_related("cart_items", "products")
+            .all()
+        )
 
     class Meta:
         model = Order

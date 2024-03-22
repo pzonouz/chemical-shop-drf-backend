@@ -12,3 +12,12 @@ class CartItemSerializer(ModelSerializer):
     class Meta:
         model = CartItem
         fields = ("user", "product", "product_id", "quantity", "id")
+
+
+class CartItemSerializerForOrder(ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = CartItem
+        fields = ("product", "product_id", "quantity", "id")

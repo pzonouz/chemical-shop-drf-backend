@@ -15,6 +15,7 @@ djangorestframework-simplejwt = "*"
 social-auth-app-django = "*"
 pillow = "*"
 python-dotenv = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 djlint = "*"
