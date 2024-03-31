@@ -5,8 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from cartItems.models import CartItem
+from cartItems.serializers import CartItemSerializerForOrder
 from orders.models import Order
 from orders.serializers import OrderSerializer
+from users.models import CustomUser
+from users.serializers import CustomUserSerializer
 
 
 class OrderViewSet(ModelViewSet):
@@ -20,13 +23,18 @@ class OrderViewSet(ModelViewSet):
         model = Order
 
     def create(self, request, *args, **kwargs):
-        user = self.request.user
+        user_id = self.request.user.pk
+        # user_qs = CustomUser.objects.filter(pk=user_id).first()
+        # userSerializer = CustomUserSerializer(user_qs)
         data = request.data
-        data["user"] = user.pk
-        cart_items = CartItem.objects.filter(user__id=user.pk, order=None).values_list(
-            "pk", flat=True
+        data["user"] = user_id
+        cart_items_qs = CartItem.objects.prefetch_related("product").filter(
+            user__id=user_id, order=None
         )
-        data["cart_items"] = list(cart_items)
+        data["cart_items"] = []
+        for item in cart_items_qs:
+            data["cart_items"].append(CartItemSerializerForOrder(item).data)
+
         if data["cart_items"] == []:
             return Response("Cart Items is empty", status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=data)

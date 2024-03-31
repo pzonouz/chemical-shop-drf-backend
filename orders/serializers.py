@@ -1,14 +1,28 @@
+from typing import List
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
+from cartItems.models import CartItem
 from cartItems.serializers import CartItemSerializerForOrder
 from orders.models import Order
 from users.serializers import CustomUserSerializer
 
 
 class OrderSerializer(ModelSerializer):
-    user = CustomUserSerializer()
     cart_items = CartItemSerializerForOrder(many=True)
+    pk = serializers.IntegerField(required=False)
 
     class Meta:
         model = Order
-        fields = ("id", "user", "cart_items", "delivery_method")
+        fields = "__all__"
+
+    def save(self, **kwargs):
+        order = Order.objects.create(
+            user=self.validated_data["user"],
+            delivery_method=self.validated_data["delivery_method"],
+        )
+        cart_items: List[CartItem] = self.validated_data.get("cart_items")
+        for item in cart_items:
+            cart_item = CartItem.objects.get(pk=item["pk"])
+            cart_item.order = order
+            cart_item.save()

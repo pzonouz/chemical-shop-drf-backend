@@ -15,9 +15,8 @@ class CartItemSerializer(ModelSerializer):
 
 
 class CartItemSerializerForOrder(ModelSerializer):
-    product = ProductSerializer(read_only=True)
-    product_id = serializers.IntegerField(write_only=True)
+    pk = serializers.IntegerField(required=False)
 
     class Meta:
         model = CartItem
-        fields = ("product", "product_id", "quantity", "id")
+        fields = "__all__"
