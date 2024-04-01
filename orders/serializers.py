@@ -1,4 +1,4 @@
-from typing import List
+# type:ignore
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -18,11 +18,21 @@ class OrderSerializer(ModelSerializer):
 
     def save(self, **kwargs):
         order = Order.objects.create(
-            user=self.validated_data["user"],
-            delivery_method=self.validated_data["delivery_method"],
+            user=self.validated_data.get("user"),
+            delivery_method=self.validated_data.get("delivery_method"),
         )
-        cart_items: List[CartItem] = self.validated_data.get("cart_items")
+        cart_items = self.validated_data.get("cart_items")
         for item in cart_items:
-            cart_item = CartItem.objects.get(pk=item["pk"])
+            cart_item = CartItem.objects.get(pk=item.get("pk"))
             cart_item.order = order
             cart_item.save()
+
+
+class OrderAdminSerializer(ModelSerializer):
+    cart_items = CartItemSerializerForOrder(many=True)
+    user = CustomUserSerializer()
+    pk = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Order
+        fields = "__all__"

@@ -22,7 +22,7 @@ class CartItem(TimeStampedModel):
     )
     order = models.ForeignKey(
         Order,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="cart_items",
         null=True,
         blank=True,
