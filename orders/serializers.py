@@ -1,37 +1,42 @@
 # type:ignore
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
+from django.db import transaction
 
 from cartItems.models import CartItem
 from cartItems.serializers import CartItemSerializerForOrder
 from orders.models import Order
 from users.serializers import CustomUserSerializer
+from processes.serializers import ListProcessSerializer
 
 
 class OrderSerializer(ModelSerializer):
     cart_items = CartItemSerializerForOrder(many=True)
     pk = serializers.IntegerField(required=False)
+    processes = ListProcessSerializer
 
     class Meta:
         model = Order
         fields = "__all__"
 
     def save(self, **kwargs):
-        order = Order.objects.create(
-            user=self.validated_data.get("user"),
-            delivery_method=self.validated_data.get("delivery_method"),
-        )
-        cart_items = self.validated_data.get("cart_items")
-        for item in cart_items:
-            cart_item = CartItem.objects.get(pk=item.get("pk"))
-            cart_item.order = order
-            cart_item.save()
+        with transaction.atomic():
+            order = Order.objects.create(
+                user=self.validated_data.get("user"),
+                delivery_method=self.validated_data.get("delivery_method"),
+            )
+            cart_items = self.validated_data.get("cart_items")
+            for item in cart_items:
+                cart_item = CartItem.objects.get(pk=item.get("pk"))
+                cart_item.order = order
+                cart_item.save()
 
 
 class OrderAdminSerializer(ModelSerializer):
     cart_items = CartItemSerializerForOrder(many=True)
     user = CustomUserSerializer()
     pk = serializers.IntegerField(required=False)
+    processes = ListProcessSerializer(many=True)
 
     class Meta:
         model = Order

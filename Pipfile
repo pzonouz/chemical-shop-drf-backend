@@ -16,6 +16,7 @@ social-auth-app-django = "*"
 pillow = "*"
 python-dotenv = "*"
 django-debug-toolbar = "*"
+psycopg2 = "*"
 
 [dev-packages]
 djlint = "*"
