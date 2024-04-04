@@ -31,12 +31,10 @@ class ProcessViewSet(
             process_status = "D"
 
         request.data["status"] = process_status
-        print(request.data["status"])
+        print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        Process.objects.create(
-            status=request.data.get("status"), order_id=request.data.get("order_id")
-        )
+        Process.objects.create(**request.data)
         # self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(

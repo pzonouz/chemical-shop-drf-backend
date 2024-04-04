@@ -11,3 +11,4 @@ class Process(TimeStampedModel):
     status = models.CharField(
         choices=process_status, max_length=1, default="I", null=True
     )
+    description = models.TextField(null=True, blank=True)
