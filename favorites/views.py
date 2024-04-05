@@ -14,14 +14,19 @@ class FavoriteViewSet(ModelViewSet):
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
+        request.data["user"] = request.user
+        favorite = Favorite.objects.filter(
+            product_id=request.data.get("product"),
+            user=request.data.get("user"),
+        ).first()
+        if favorite:
+            favorite.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        Favorite.objects.create(
+            product_id=request.data.get("product"), user=request.data.get("user")
+        )
         return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            status=status.HTTP_201_CREATED,
         )

@@ -13,11 +13,11 @@ from processes.serializers import ListProcessSerializer
 class OrderSerializer(ModelSerializer):
     cart_items = CartItemSerializerForOrder(many=True)
     pk = serializers.IntegerField(required=False)
-    processes = ListProcessSerializer
+    processes = ListProcessSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = ("pk", "id", "cart_items", "processes", "created_at")
 
     def save(self, **kwargs):
         with transaction.atomic():
