@@ -17,6 +17,7 @@ class ProcessViewSet(
 
     def create(self, request, *args, **kwargs):
         processes = Process.objects.filter(order__id=request.data.get("order_id"))
+        # check for Status stages
         process_status = None
         if processes.count() == 0:
             process_status = "I"
@@ -31,12 +32,13 @@ class ProcessViewSet(
             process_status = "D"
 
         request.data["status"] = process_status
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        Process.objects.create(**request.data)
-        # self.perform_create(serializer)
+        self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
+
+    def perform_create(self, serializer):
+        return serializer.save(order_id=self.request.data.get("order_id"))  # type: ignore

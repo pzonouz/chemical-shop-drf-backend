@@ -5,7 +5,7 @@ from .models import Process
 class ProcessSerializer(ModelSerializer):
     class Meta:
         model = Process
-        fields = ("order_id", "description")
+        fields = ("order_id", "description", "status")
         write_only_fields = ("order_id",)
 
 

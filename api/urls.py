@@ -8,6 +8,7 @@ from orders.views import OrderAdminViewSet, OrderViewSet
 from processes.views import ProcessViewSet
 from products.views import ProductAdminViewSet, ProductListRetrieve
 from users.views import UserAdminViewSet
+from favorites.views import FavoriteViewSet
 
 router = DefaultRouter()
 router.register(r"products", ProductListRetrieve, basename="products")
@@ -19,6 +20,7 @@ router.register(r"orders", OrderViewSet, basename="orders")
 router.register(r"admin/orders", OrderAdminViewSet, basename="ordersAdmin")
 router.register(r"admin/users", UserAdminViewSet, basename="usersAdmin")
 router.register(r"admin/processes", ProcessViewSet, basename="processesAdmin")
+router.register(r"favorites", FavoriteViewSet, basename="favorites")
 
 urlpatterns = [
     path("auth/", include("auth.urls")),
