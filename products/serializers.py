@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from categories.models import Category
+from favorites.models import Favorite
 from favorites.serializers import FavoriteSerializer
 from products.models import Product
 
@@ -9,7 +10,13 @@ class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         slug_field="name", queryset=Category.objects.all()
     )
-    favorites = FavoriteSerializer(many=True)
+    favorites = serializers.SerializerMethodField()
+
+    def get_favorites(self, obj):
+        user = self.context.get("request").user  # type: ignore
+        return FavoriteSerializer(
+            Favorite.objects.filter(product=obj, user_id=user.id), many=True
+        ).data
 
     class Meta:
         model = Product

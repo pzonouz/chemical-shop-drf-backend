@@ -1,7 +1,7 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework.permissions import IsAdminUser
 
 from categories.models import Category
 from categories.serializers import CategoryAdminSerializer, CategorySerializer
@@ -10,8 +10,6 @@ from categories.serializers import CategoryAdminSerializer, CategorySerializer
 class CategoryListRetrieve(
     mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet
 ):
-    permission_classes = [AllowAny]
-    authentication_classes = []
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

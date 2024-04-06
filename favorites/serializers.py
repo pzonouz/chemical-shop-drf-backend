@@ -4,6 +4,7 @@ from favorites.models import Favorite
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
 
     class Meta:
         model = Favorite

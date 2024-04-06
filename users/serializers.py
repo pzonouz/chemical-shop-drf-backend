@@ -1,5 +1,6 @@
 from users.models import CustomUser, UserProfile
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 
 class UserProfileSerializer(ModelSerializer):
@@ -11,6 +12,7 @@ class UserProfileSerializer(ModelSerializer):
 
 class CustomUserSerializer(ModelSerializer):
     profile = UserProfileSerializer()
+    id = serializers.IntegerField()
 
     class Meta:
         model = CustomUser

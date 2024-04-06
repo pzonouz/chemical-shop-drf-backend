@@ -14,4 +14,4 @@ class Product(TimeStampedModel):
     )
 
     def __str__(self):
-        return self.name
+        return self.name + "," + str(self.pk) + "," + self.image  # type: ignore
