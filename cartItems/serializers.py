@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
 from cartItems.models import CartItem
-from products.serializers import ProductSerializer
+from products.serializers import ProductSerializer, ProductSerializerForOrder
 
 
 class CartItemSerializer(ModelSerializer):
@@ -16,7 +16,7 @@ class CartItemSerializer(ModelSerializer):
 
 class CartItemSerializerForOrder(ModelSerializer):
     pk = serializers.IntegerField(required=False)
-    product = ProductSerializer()
+    product = ProductSerializerForOrder()
 
     class Meta:
         model = CartItem

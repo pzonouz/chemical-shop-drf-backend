@@ -29,3 +29,17 @@ class ProductSerializer(serializers.ModelSerializer):
             "category",
             "favorites",
         ]
+
+
+class ProductSerializerForOrder(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            "id",
+            "name",
+            "english_name",
+            "price",
+            "image",
+            "category",
+            # "favorites",
+        ]

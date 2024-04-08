@@ -7,7 +7,7 @@ from images.views import ImageUploadView
 from orders.views import OrderAdminViewSet, OrderViewSet
 from processes.views import ProcessViewSet
 from products.views import ProductAdminViewSet, ProductListRetrieve
-from users.views import UserAdminViewSet
+from users.views import UserAdminViewSet, UserViewSet
 from favorites.views import FavoriteViewSet
 
 router = DefaultRouter()
@@ -19,6 +19,7 @@ router.register(r"cart-items", CartItemViewSet, basename="cartItems")
 router.register(r"orders", OrderViewSet, basename="orders")
 router.register(r"admin/orders", OrderAdminViewSet, basename="ordersAdmin")
 router.register(r"admin/users", UserAdminViewSet, basename="usersAdmin")
+router.register(r"users", UserViewSet, basename="users")
 router.register(r"admin/processes", ProcessViewSet, basename="processesAdmin")
 router.register(r"favorites", FavoriteViewSet, basename="favorites")
 
