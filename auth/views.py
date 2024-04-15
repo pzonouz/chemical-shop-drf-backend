@@ -1,12 +1,12 @@
-from django.http import HttpResponse
 import requests
+from django.http import HttpResponse
+from djoser.social.views import ProviderAuthView
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt import views
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from djoser.social.views import ProviderAuthView
 from config import settings
 
 

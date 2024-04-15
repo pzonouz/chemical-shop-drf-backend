@@ -1,9 +1,9 @@
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.permissions import IsAdminUser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins, status
+from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.viewsets import GenericViewSet
 
 from cartItems.models import CartItem
 from cartItems.serializers import CartItemSerializerForOrder
@@ -14,8 +14,6 @@ from orders.serializers import OrderAdminSerializer, OrderSerializer
 class OrderViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
-    # mixins.UpdateModelMixin,
-    # mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     GenericViewSet,
 ):
@@ -23,15 +21,14 @@ class OrderViewSet(
     serializer_class = OrderSerializer
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+        queryset = Order.objects.filter(user=self.request.user).order_by("-created_at")
+        return queryset
 
     class Mate:
         model = Order
 
     def create(self, request, *args, **kwargs):
         user_id = self.request.user.pk
-        # user_qs = CustomUser.objects.filter(pk=user_id).first()
-        # userSerializer = CustomUserSerializer(user_qs)
         data = request.data
         data["user"] = user_id
         cart_items_qs = CartItem.objects.prefetch_related("product").filter(
@@ -48,14 +45,12 @@ class OrderViewSet(
         serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers, *args, **kwargs
         )
 
 
 class OrderAdminViewSet(
-    # mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
-    # mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     GenericViewSet,
@@ -68,3 +63,8 @@ class OrderAdminViewSet(
 
     class Meta:
         model = Order
+
+
+@api_view(["GET"])
+def orders_statuses(request):
+    return Response({"month": ""})

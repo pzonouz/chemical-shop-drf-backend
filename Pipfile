@@ -17,6 +17,15 @@ pillow = "*"
 python-dotenv = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
+pyright = "*"
+pylint-venv = "*"
+python-lsp-server = {extras = ["all"], version = "*"}
+python-lsp-isort = "*"
+pylsp-mypy = "*"
+python-lsp-black = "*"
+python-lsp-ruff = "*"
+django-stubs = "*"
+djangorestframework-types = "*"
 
 [dev-packages]
 djlint = "*"
