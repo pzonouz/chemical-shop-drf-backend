@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "products",
     "api",
     "users",
-    "corsheaders",
     "categories",
     "social_django",
     "images",
@@ -58,7 +57,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "auth.middlewares.JWTCookieMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
