@@ -29,6 +29,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "category",
             "favorites",
             "description",
+            "kind",
+            "modified_by",
+            "is_customized",
+            "diameter",
+            "state",
+            "analyze",
+            "unit",
+            "quantity",
         ]
 
 
@@ -42,5 +50,4 @@ class ProductSerializerForOrder(serializers.ModelSerializer):
             "price",
             "image",
             "category",
-            # "favorites",
         ]
