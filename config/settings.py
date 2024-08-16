@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "orders",
     "processes",
     "favorites",
+    "store",
 ]
 
 MIDDLEWARE = [
@@ -191,7 +192,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name", "profile"]
 # SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
-AUTH_COOKIE_PATH = str(os.getenv("AUTH_COOKIE_PATH"))
+AUTH_COOKIE_PATH = str(os.getenv("AUTH_COOKIE_PATH", "/"))
 AUTH_COOKIE_MAXAGE = 60 * 60 * 24 * 30
 AUTH_COOKIE_SECURE = False
 AUTH_COOKIE_HTTPONLY = True

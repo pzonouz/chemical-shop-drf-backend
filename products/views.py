@@ -1,10 +1,9 @@
-from rest_framework import mixins
-from rest_framework import viewsets
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import GenericViewSet
 
-from products.serializers import ProductSerializer
 from products.models import Product
+from products.serializers import ProductSerializer
 
 
 class ProductListRetrieve(

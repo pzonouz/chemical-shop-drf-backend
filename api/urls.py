@@ -8,20 +8,22 @@ from images.views import ImageUploadView
 from orders.views import OrderAdminViewSet, OrderViewSet
 from processes.views import ProcessViewSet
 from products.views import ProductAdminViewSet, ProductListRetrieve
+from store.views import StoreViewSet
 from users.views import UserProfileAdminViewSet, UserProfileViewSet
 
 router = DefaultRouter()
-router.register(r"products", ProductListRetrieve, basename="products")
-router.register(r"admin/products", ProductAdminViewSet, basename="productsAdmin")
-router.register(r"categories", CategoryListRetrieve, basename="categories")
-router.register(r"admin/categories", CategoryAdminViewSet, basename="categoriesAdmin")
-router.register(r"cart-items", CartItemViewSet, basename="cartItems")
-router.register(r"orders", OrderViewSet, basename="orders")
-router.register(r"admin/orders", OrderAdminViewSet, basename="ordersAdmin")
-router.register(r"admin/user_profiles", UserProfileAdminViewSet, basename="usersAdmin")
-router.register(r"user_profiles", UserProfileViewSet, basename="users")
-router.register(r"admin/processes", ProcessViewSet, basename="processesAdmin")
-router.register(r"favorites", FavoriteViewSet, basename="favorites")
+router.register("products", ProductListRetrieve, basename="products")
+router.register("admin/products", ProductAdminViewSet, basename="productsAdmin")
+router.register("admin/processes", ProcessViewSet, basename="processesAdmin")
+router.register("admin/categories", CategoryAdminViewSet, basename="categoriesAdmin")
+router.register("categories", CategoryListRetrieve, basename="categories")
+router.register("admin/orders", OrderAdminViewSet, basename="ordersAdmin")
+router.register("admin/user_profiles", UserProfileAdminViewSet, basename="usersAdmin")
+router.register("cart-items", CartItemViewSet, basename="cartItems")
+router.register("orders", OrderViewSet, basename="orders")
+router.register("user_profiles", UserProfileViewSet, basename="users")
+router.register("favorites", FavoriteViewSet, basename="favorites")
+router.register("store", StoreViewSet, basename="store")
 
 urlpatterns = [
     path("auth/", include("auth.urls")),
